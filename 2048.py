@@ -2,27 +2,27 @@
 from sys import stdout
 from random import choice
 
+size = 0
+score = 0
+best = 0
+matrix = [[0 for x in range(size)] for y in range(size)]
+progress = 1
+exit = 0
+
 #function up (in progress)
 def upfun(matrix = []):
 	print(matrix)
 
-size = 4 #size of the matrix of the game
-score = 0 #score in the current game 
-best = 0 #highest score obtained so far
-
-#making the 4 x 4 matrix and setting all elements to 0
-matrix = [[0 for x in range(size)] for y in range(size)]
-
-'''
-bool var to check if player is able to play next,
-and aux var to support it 
-'''
-progress = 1  
+#function for setting matrix
+def setM(size, score, best, matrix, progress, exit):
+	
+#calling function to set matrix
+setM(4, 0, 0, [[0 for x in range(size)] for y in range(size)], 1, 0)
 
 print('Welcome to 2048 game!!!')
 
 #while matrix not full, continue
-while (progress == 1):
+while (progress == 1 or exit == 1):
 	print('Score = %d , Best = %d' % (score,best))
 	
 	#generates either values 2 or 4 to be put in the matrix
@@ -42,7 +42,7 @@ while (progress == 1):
 		matrix[x1][x2] = rand
 	else:
 		'''keeps randomming a new position till find
-		a position wich has 0 value'''
+		a position which has 0 value'''
 		while(matrix[x1][x2] != 0):
 			x1 = choice('0123')
 			x2 = choice('0123')
@@ -67,29 +67,31 @@ while (progress == 1):
 			stdout.write(' ')
 		print('')
 
-	'''if aux equals to 16 that means all 16 elements in the
-	matrix are not 0, therefore the game is over, leaves loop'''
-	if (aux == 16): 
-		break
-
 	#gets command from user
 	cmd = input()
 	cmd = int(cmd)
 
-	'''executes commands, if command is wrong, it asks the user
-	to type a valid command''' 	
-	while (cmd != 8 and cmd != 2 and cmd != 4 and cmd != 6):
-		if (cmd == 8):
-			upfun(matrix)		
-		else:
-			print("""Wrong command, please type a value either
-				8 (up), 2 (down), 4 (left) or 6 (right):""")
-			cmd = input()
-			cmd = int(cmd)
+	'''if aux equals to 16 that means all 16 elements in the
+	matrix are not 0, therefore the game is over and asks user
+	whether playing again or leave'''
+	if (aux == 16): 
+		print('GAME OVER:')
+		print('1 - try again')
+		print('2 - exit')
+		exit = input()
+		#if (exit == 1):
+
+	else:
+		'''executes commands, if command is wrong, it asks the user
+		to type a valid command''' 	
+		while (cmd != 8 and cmd != 2 and cmd != 4 and cmd != 6):
+			if (cmd == 8):
+				upfun(matrix)		
+			else:
+				print("""Wrong command, please type a value either
+					8 (up), 2 (down), 4 (left) or 6 (right):""")
+				cmd = input()
+				cmd = int(cmd)
+		
 			
-'''by this line the game is over and it asks user if playing 
-again or exiting''' 
-print('GAME OVER:')
-print('1 - try again')
-print('2 - exit')
-z = input()
+	
