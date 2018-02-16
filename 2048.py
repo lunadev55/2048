@@ -2,27 +2,23 @@
 from sys import stdout
 from random import choice
 
-size = 0
-score = 0
-best = 0
-matrix = [[0 for x in range(size)] for y in range(size)]
-progress = 1
-exit = 0
-
-#function up (in progress)
+#function up (starting soon)
 def upfun(matrix = []):
 	print(matrix)
 
-#function for setting matrix
-def setM(size, score, best, matrix, progress, exit):
-	
-#calling function to set matrix
-setM(4, 0, 0, [[0 for x in range(size)] for y in range(size)], 1, 0)
+size = 4 #matrix 4 x 4
+score = 0 #score of the current game
+best = 0 #greatest score so far
+
+#creates a 2d matrix with size 4 x 4
+matrix = [[0 for x in range(size)] for y in range(size)]
+
+progress = 1
 
 print('Welcome to 2048 game!!!')
 
 #while matrix not full, continue
-while (progress == 1 or exit == 1):
+while (progress == 1):
 	print('Score = %d , Best = %d' % (score,best))
 	
 	#generates either values 2 or 4 to be put in the matrix
@@ -50,15 +46,6 @@ while (progress == 1 or exit == 1):
 			x2 = int(x2)
 		matrix[x1][x2] = rand #the final pos receives 0
 
-	'''for loop to check if all the elements in the matrix	are
-	different than 0, if so that means the matrix is full
-	and the game is over''' 	
-	aux = 0 #"aux" variable to help supporting "progress" variable
-	for i in range(size):
-		for j in range(size):
-			if (matrix[i][j] != 0):
-				aux += 1
-
 	#prints matrix
 	for i in range(size):
 		for j in range(size):
@@ -67,9 +54,16 @@ while (progress == 1 or exit == 1):
 			stdout.write(' ')
 		print('')
 
-	#gets command from user
-	cmd = input()
-	cmd = int(cmd)
+
+	'''for loop to check if all the elements in the matrix	are
+	different than 0, if so that means the matrix is full
+	and the game is over''' 	
+	aux = 0 #"aux" variable to help supporting "progress" variable
+	for i in range(size):
+		for j in range(size):
+			if (matrix[i][j] != 0):
+				aux += 1
+	
 
 	'''if aux equals to 16 that means all 16 elements in the
 	matrix are not 0, therefore the game is over and asks user
@@ -79,19 +73,39 @@ while (progress == 1 or exit == 1):
 		print('1 - try again')
 		print('2 - exit')
 		exit = input()
-		#if (exit == 1):
+		exit = int(exit)
+		#IN NEED OF DEBUG
+		while (exit != 1 and exit != 2):
+			if (exit == 1):
+				#sets matrix again for new game
+				size = 4 #matrix 4 x 4
+				score = 0 #score of the current game
+				best = 0 #greatest score so far
+				#creates a 2d matrix with size 4 x 4
+				matrix = [[0 for x in range(size)] for y in range(size)]
+				#exit = 0
+				print('Welcome to 2048 game!!!')
+			elif (exit == 2):
+				break
+			else:
+				print("""Wrong command, please type a value either
+						1 (try again) or 2 (exit):""")
+				exit = input()
+				exit = int(exit)
 
 	else:
+		#gets command from user
+		cmd = input()
+		cmd = int(cmd)
+
 		'''executes commands, if command is wrong, it asks the user
 		to type a valid command''' 	
 		while (cmd != 8 and cmd != 2 and cmd != 4 and cmd != 6):
-			if (cmd == 8):
-				upfun(matrix)		
+			if (cmd == 8): #IN NEED OF DEBUG
+				upfun(matrix)
+				print('teste')		
 			else:
 				print("""Wrong command, please type a value either
 					8 (up), 2 (down), 4 (left) or 6 (right):""")
 				cmd = input()
 				cmd = int(cmd)
-		
-			
-	
